@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{% block title %} MoveMetrics{% endblock %}</title>
+        <link rel="icon" href="static/img/TLogoGrey.ico" type="image/x-icon" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+            crossorigin="anonymous"
+        />
+
+        <!-- Link to CSS file -->
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='style/styles.css') }}"
+        />
+    </head>
+
+    <body class="d-flex flex-column min-vh-100">
+        <header>
+           <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark m-auto" >
+                <a class="navbar-brand m-3" href="#">
+                    MoveMetrics
+                </a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <!-- Navigation links here -->
+                        <li class="nav-item active">
+                            <a class="nav-link" href=""
+                                >Home</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            </header>
+            <content>
+           {% block content %} {% endblock %}
+</content>
+                    <!-- Footer Section -->
+        <footer class="bg-dark text-white mt-auto" >
+            <div class="container-fluid py-4 ">
+                <div class="row ">
+                    <div class="col-md-4">
+                        <h5>About MoveMetrics</h5>
+                        <p>
+                            MoveMetrics is a platform for tracking daily movement and encouraging a healthier lifestyle.
+                        </p>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col text-center">
+                        <p>&copy; 2024 MoveMetrics. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap JavaScript -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"
+        ></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </body>
+</html>
+

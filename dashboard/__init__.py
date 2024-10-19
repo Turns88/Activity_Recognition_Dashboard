@@ -1,14 +1,19 @@
-# import flask module from Flask package
-from flask import Flask 
-
-# import flask - from the package import a module
 from flask import Flask
+from flask_bootstrap import Bootstrap5
+from pymongo import MongoClient
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 def create_app():
-    print(__name__)  # let us be curious - what is this __name__
-    app = Flask(__name__)  # this is the name of the module/package that is calling this app
+    app = Flask(__name__)  
     app.debug = True
-    # add the Blueprint
+
+    # MongoDB client setupclient
+    client = MongoClient(os.getenv("CONN_STR")) 
+    db = client.assignment2b  
+    app.config['db'] = db  # store db in config to access elsewhere
+
     from . import views
     app.register_blueprint(views.mainbp)
     return app

@@ -1,0 +1,100 @@
+{% extends 'base.html' %} {% block header %}
+
+
+{% endblock %} {% block content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .dashboard {
+            width: 80%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .chart-container, .table-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Simple Dashboard</h1>
+        <input id="datePicker" type="text" placeholder="Select Date" />
+        <div class="dashboard">
+            <div class="table-container">
+                <table id="dataTable" style="border-collapse: collapse; width: 100%; border-spacing: 15px;">
+                    <thead>
+                        <tr>
+                            <th>Activity</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for activity in activityData %}
+                        <tr>
+                            <td>{{ activity.Activity }}</td>
+                            <td>{{ activity.Duration }}</td>
+                        </tr>
+                        {% endfor %}
+                        <!-- Rows will go here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="chart-container">
+                <canvas id="myPieChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add scripts at the end for better loading performance -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Initialize Date Picker
+        flatpickr("#datePicker", {
+            onChange: function(selectedDates, dateStr, instance) {
+                console.log("Selected date:", dateStr);
+            }
+        });
+
+
+
+        // Pie Chart Data
+
+        const activityData = {{ activityData|tojson }};
+        const ctx = document.getElementById("myPieChart").getContext("2d");
+        const pieChart = new Chart(ctx, {
+            type: "pie",
+            data: {
+                labels: activityData.map(item => item.Activity),
+                datasets: [{
+                    label: "Values",
+                    data: activityData.map(item => item.Duration),
+                    backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "pink", "grey","purple"]
+                }]
+            }
+        });
+    </script>
+</body>
+</html>
+
+{% endblock %}
+
