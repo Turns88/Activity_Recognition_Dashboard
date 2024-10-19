@@ -36,8 +36,14 @@
 </head>
 <body>
     <div class="container">
-        <h1>Simple Dashboard</h1>
+        <h1>Activity Dashboard</h1>
+
+        <form action="" id="dateForm" name="search" padding:2>
+  <label for="date">Select a date:</label>
         <input id="datePicker" type="text" placeholder="Select Date" />
+  <button type="submit" id="submit-btn" disabled>Submit</button>
+</form>
+
         <div class="dashboard">
             <div class="table-container">
                 <table id="dataTable" style="border-collapse: collapse; width: 100%; border-spacing: 15px;">
@@ -72,6 +78,7 @@
         flatpickr("#datePicker", {
             onChange: function(selectedDates, dateStr, instance) {
                 console.log("Selected date:", dateStr);
+                document.getElementById('submit-btn').disabled = false;
             }
         });
 
