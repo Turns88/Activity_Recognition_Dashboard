@@ -10,7 +10,7 @@ mainbp = Blueprint('main', __name__)
 def index(submitted_date=None):
     # Access the db from the app's config
     db = current_app.config['db']
-    collectionData = db.test  # Access the collection 'har'
+    collectionData = db.activity_summary  # Access the collection 'har'
     specific_date= datetime.now()
     if submitted_date is None:
         specific_date = datetime.now(timezone.utc)
@@ -27,19 +27,20 @@ def index(submitted_date=None):
 
     # Fetch data from MongoDB  
     activityData = [
-        {key: value for key, value in item.items() if key != '_id'}
-        for item in collectionData.find({
-        'timestamp': {
-            '$gte': start_of_day,
-            '$lt': end_of_day
-        }
-    })
+        {key for key in item.keys() if key != '_id' and key != 'Timestamp'}
+        for item in collectionData.find()
+    ]
+    # Fetch data from MongoDB  
+    durationData = [
+        {value for key ,value in item.items() if key != '_id' and key != 'Timestamp'}
+        for item in collectionData.find()
     ]
     #testing
     for item in activityData:
         print(item)
+        print("*****")
 
-    return render_template('index.html', activityData=activityData)
+    return render_template('index.html', activityData=activityData, durationData=durationData)
 
 @mainbp.route('/search', methods=['POST'])
 def find():
@@ -51,4 +52,5 @@ def find():
         print(search_query)
         query = "%" + search_query + "%"
         return redirect(url_for('main.index', submitted_date=query))
+    # Handle the case where search_query is not providedreturn
     return redirect(url_for('main.index'))  # Redirect or handle as needed
