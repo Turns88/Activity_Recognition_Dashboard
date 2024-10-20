@@ -38,9 +38,9 @@
     <div class="container">
         <h1>Activity Dashboard</h1>
 
-        <form action="" id="dateForm" name="search" padding:2>
+        <form action="{{ url_for('main.find') }}" method="POST" id="dateForm" name="dateForm" padding:2>
   <label for="date">Select a date:</label>
-        <input id="datePicker" type="text" placeholder="Select Date" />
+        <input id="datePicker" type="text" name="submitted_date" placeholder="Select Date" />
   <button type="submit" id="submit-btn" disabled>Submit</button>
 </form>
 
@@ -54,10 +54,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for activity in activityData %}
+                      {% for item in activity_dicts %}
                         <tr>
-                            <td>{{ activity.Activity }}</td>
-                            <td>{{ activity.Duration }}</td>
+                            <td>{{item.activity }}</td>
+                            <td>{{ item.duration  }}</td>
                         </tr>
                         {% endfor %}
                         <!-- Rows will go here -->
@@ -86,15 +86,17 @@
 
         // Pie Chart Data
 
-        const activityData = {{ activityData|tojson }};
+        const activityData = {{ activity_dicts|tojson }};
+    const labels = activityData.map(item => item.activity);  
+    const data = activityData.map(item => item.duration);
         const ctx = document.getElementById("myPieChart").getContext("2d");
         const pieChart = new Chart(ctx, {
             type: "pie",
             data: {
-                labels: activityData.map(item => item.Activity),
+                labels: labels,
                 datasets: [{
                     label: "Values",
-                    data: activityData.map(item => item.Duration),
+                    data: data,
                     backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "pink", "grey","purple"]
                 }]
             }
